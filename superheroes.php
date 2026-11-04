@@ -63,10 +63,33 @@ $superheroes = [
   ], 
 ];
 
-?>
-
-<ul>
-<?php foreach ($superheroes as $superhero): ?>
-  <li><?= $superhero['alias']; ?></li>
-<?php endforeach; ?>
-</ul>
+// Accept only a scalar query and remove markup before matching.
+header('Content-Type: text/html; charset=UTF-8');
+$input = $_GET['query'] ?? '';
+if (!is_string($input)) {
+    http_response_code(400);
+    echo '<p class="error">Invalid search query.</p>';
+    exit;
+}
+$query = trim(strip_tags($input));
+function escapeHtml($value) {
+    return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+if ($query === '') {
+    echo '<ul>';
+    foreach ($superheroes as $superhero) {
+        echo '<li>' . escapeHtml($superhero['alias']) . '</li>';
+    }
+    echo '</ul>';
+    exit;
+}
+foreach ($superheroes as $superhero) {
+    if (strcasecmp($query, $superhero['name']) === 0 ||
+        strcasecmp($query, $superhero['alias']) === 0) {
+        echo '<h3>' . escapeHtml($superhero['alias']) . '</h3>';
+        echo '<h4>A.K.A. ' . escapeHtml($superhero['name']) . '</h4>';
+        echo '<p>' . escapeHtml($superhero['biography']) . '</p>';
+        exit;
+    }
+}
+echo '<p class="error">Superhero not found</p>';
