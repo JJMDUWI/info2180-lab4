@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avengers Character Search</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header><h1>Avengers Character Search</h1></header>
+  <main>
+    <form id="search-form">
+      <label for="query">Search by Full Name or Alias</label>
+      <div class="search-controls">
+        <input id="query" name="query" type="search" placeholder="e.g. Captain America or Steve Rogers">
+        <button type="submit">Search</button>
+      </div>
+      <p class="hint">Leave the field blank to see all superheroes.</p>
+    </form>
+    <section aria-labelledby="results-heading">
+      <h2 id="results-heading">Result</h2>
+      <div id="result" aria-live="polite"></div>
+    </section>
+  </main>
+</body>
+</html>
